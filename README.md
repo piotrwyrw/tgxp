@@ -12,3 +12,7 @@ TGXP supports (for now, that is.)
 
 ## src/cmd
 All CLI commands are implemented in this directory.
+
+## src/plug
+Code for interfacing with LUA plugins.
+This feature is still under heavy development.
