@@ -45,5 +45,5 @@ void TGXP_InitPluginSubsystem() {
  * @param pid
  */
 void TGXP_LoadLuaPlugin(char *pid) {
-
+	// Load a LUA plugin ...
 }
