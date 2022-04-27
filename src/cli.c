@@ -20,6 +20,7 @@ int TGXP_StartEarlyReadEvalPrintLoop(TGXP_ProcedureRegistry *reg) {
         ans = TGXP_Prompt("early");
         if (!strcmp(ans, ".exit")) {
             TGXP_FEEDBACK(TGXP_EARLY_EXIT_STR);
+            free(ans);
             return 0;
         } else {
             if (TGXP_IsEmpty(ans)) {
@@ -30,6 +31,7 @@ int TGXP_StartEarlyReadEvalPrintLoop(TGXP_ProcedureRegistry *reg) {
             TGXP_FEEDBACK(TGXP_ENTER_STR, ans);
             TGXP_StartReadEvalPrintLoop(reg, f, ans);
         }
+        free(ans);
     }
 
     return 0;
@@ -47,6 +49,7 @@ int TGXP_StartReadEvalPrintLoop(TGXP_ProcedureRegistry *reg, FILE *f, char *fn) 
         if (!strcmp(ans, ".exit")) {
             TGXP_FEEDBACK(TGXP_LATE_EXIT_STR, fn);
             TGXP_DestroyEnvironmentComponents(&nv);
+            free(ans);
             return 0;
         }
 

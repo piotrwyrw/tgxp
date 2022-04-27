@@ -2,6 +2,7 @@
 
 #include <stdlib.h>
 #include <string.h>
+#include <stdio.h>
 
 TGXP_GraphicsPixel TGXP_CreateGraphicsPixel(unsigned char r, unsigned char g, unsigned char b) {
     TGXP_GraphicsPixel px;
@@ -26,19 +27,19 @@ void TGXP_WriteGraphicsPixel(FILE *f, TGXP_GraphicsPixel px) {
     char buff[100];
 
     // Red component
-    itoa(px.r, buff, 10);
+    sprintf(buff, "%d", px.r);
     fwrite(buff, strlen(buff), 1, f);
 
     fwrite(" ", 1, 1, f);
 
     // Green component
-    itoa(px.g, buff, 10);
+    sprintf(buff, "%d", px.g);
     fwrite(buff, strlen(buff), 1, f);
 
     fwrite(" ", 1, 1, f);
 
     // Blue component
-    itoa(px.b, buff, 10);
+    sprintf(buff, "%d", px.b);
     fwrite(buff, strlen(buff), 1, f);
 
     // EOL
@@ -83,12 +84,12 @@ void TGXP_WriteGraphicsFile(FILE *f, TGXP_GraphicsFile *gf) {
 
     // Write image dimensions; First the width.
     char buff[100];
-    itoa(gf->w, buff, 10);
+    sprintf(buff, "%d", gf->w);
     fwrite(buff, strlen(buff), 1, f);
 
     // Then the height after a whitespace character
     fwrite(" ", 1, 1, f);
-    itoa(gf->h, buff, 10);
+    sprintf(buff, "%d", gf->h);
     fwrite(buff, strlen(buff), 1, f);
 
     // Finish with an EOL
