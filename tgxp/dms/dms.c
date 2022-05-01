@@ -10,10 +10,11 @@ TGXP_DynamicModule TGXP_CreateDynamicModule(char *name, char *so) {
     dmod.name = malloc(strlen(name) + 1);
     strcpy(dmod.name, name);
     dmod.handle = dlopen(so, RTLD_NOW);
+    dmod.enable = 1;
     if (!dmod.handle) {
         TGXP_FEEDBACK("Error: %s: %s\n", "Could not open shared object", dlerror());
+        dmod.enable = 0;
     }
-    dmod.enable = 1;
     dmod.cwd = malloc(101);
     return dmod;
 }
@@ -26,8 +27,11 @@ void TGXP_DestroyDynamicModule(TGXP_DynamicModule *dm) {
 }
 
 int TGXP_CallDynamicModuleEntryPoint(TGXP_DynamicModule *dm) {
+    if (dm->handle == NULL || dm->name == NULL) {
+        return 0;
+    }
     char *(*entry)() = dlsym(dm->handle, TGXP_DMS_ENTRY);
-    if (!entry) {
+    if (entry == NULL) {
         TGXP_FEEDBACK(TGXP_DMS_ERROR_ENTRY, TGXP_DMS_ENTRY, dm->name);
         return 0;
     }
@@ -56,7 +60,7 @@ void TGXP_DestroyModuleManager(TGXP_ModuleManager *mm) {
     free(mm->dm);
 }
 
-int TGXP_RegisterModule(TGXP_ModuleManager *mm, TGXP_DynamicModule * dm) {
+int TGXP_RegisterModule(TGXP_ModuleManager *mm, TGXP_DynamicModule *dm) {
     if (mm->len + 1 >= mm->xlen) {
         return 0;
     }
@@ -64,6 +68,8 @@ int TGXP_RegisterModule(TGXP_ModuleManager *mm, TGXP_DynamicModule * dm) {
     strcpy(mm->dm[mm->len].name, dm->name);
     mm->dm[mm->len].handle = dm->handle;
     mm->dm[mm->len].enable = dm->enable;
+    mm->dm[mm->len].cwd = malloc(strlen(dm->cwd) + 1);
+    strcpy(mm->dm[mm->len].cwd, dm->cwd);
     mm->len ++;
     return 1;
 }
@@ -93,4 +99,13 @@ int TGXP_DisableModule(TGXP_ModuleManager *mm, char *name) {
     }
     dmod->enable = 1;
     return 1;
+}
+
+void TGXP_CallAllEntries(TGXP_ModuleManager *mm) {
+    for (unsigned i = 0; i < mm->len; i ++) {
+        if (mm->dm[i].handle == NULL) {
+            continue;
+        }
+        TGXP_CallDynamicModuleEntryPoint(&(mm->dm[i]));
+    }
 }

@@ -2,6 +2,7 @@
 #define TGXP_DMS_H
 
 #define TGXP_DMS_ENTRY "DMS_Entry"
+#define TGXP_DMS_CALL "DMS_Call"
 
 typedef struct {
     char *name;
@@ -26,5 +27,7 @@ int TGXP_RegisterModule(TGXP_ModuleManager *, TGXP_DynamicModule *);
 TGXP_DynamicModule *TGXP_GetModuleByName(TGXP_ModuleManager *, char *);
 int TGXP_EnableModule(TGXP_ModuleManager *, char *);
 int TGXP_DisableModule(TGXP_ModuleManager *, char *);
+
+void TGXP_CallAllEntries(TGXP_ModuleManager *);
 
 #endif

@@ -18,6 +18,8 @@
 #define TGXP_DMS_ENTRY_OK "Plugin \"%s\" initialized with command word \"%s\".\n"
 #define TGXP_DMS_ENTRY_FAIL "Initialization of \"%s\" failed.\n"
 
+#define TGXP_DMS_ERROR_CALL "Could not call command routine \"%s\" of module \"%s\".\n"
+
 #define TGXP_FOPEN_FLAGS "w"
 
 #endif

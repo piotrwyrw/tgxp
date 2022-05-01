@@ -4,6 +4,7 @@
 #include "parse.h"
 #include "errc.h"
 #include "env.h"
+#include "dms/dms.h"
 
 #define TGXP_CMD_PROC_SIGN char *, unsigned, TGXP_CommandParameter *, TGXP_Environment *
 #define TGXP_CMD_PROC_SIGN_ID char *id, unsigned param_ct, TGXP_CommandParameter *params, TGXP_Environment *env
@@ -32,6 +33,6 @@ void TGXP_DestroyProcedureRegistry(TGXP_ProcedureRegistry *);
 // NOTE: Once a module has been registered, it can NOT be unregistered.
 int TGXP_RegisterProcedure(TGXP_ProcedureRegistry *, TGXP_CommandProcedure *);
 
-int TGXP_FindAndExecuteCommand(TGXP_ProcedureRegistry *, TGXP_Command *, TGXP_Environment *);
+int TGXP_FindAndExecuteCommand(TGXP_ProcedureRegistry *, TGXP_ModuleManager *, TGXP_Command *, TGXP_Environment *);
 
 #endif

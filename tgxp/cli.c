@@ -9,7 +9,9 @@
 #include <stdlib.h>
 #include <string.h>
 
-int TGXP_StartEarlyReadEvalPrintLoop(TGXP_ProcedureRegistry *reg) {
+int TGXP_StartEarlyReadEvalPrintLoop(TGXP_ProcedureRegistry *reg, TGXP_ModuleManager *mm) {
+    TGXP_CallAllEntries(mm);
+    
     // Print the welcome messages
     printf(TGXP_WELCOME_STR, TGXP_VERSION);
 
@@ -29,7 +31,7 @@ int TGXP_StartEarlyReadEvalPrintLoop(TGXP_ProcedureRegistry *reg) {
             }
             FILE *f = fopen(ans, "w");
             TGXP_FEEDBACK(TGXP_ENTER_STR, ans);
-            TGXP_StartReadEvalPrintLoop(reg, f, ans);
+            TGXP_StartReadEvalPrintLoop(reg, mm, f, ans);
         }
         free(ans);
     }
@@ -37,7 +39,7 @@ int TGXP_StartEarlyReadEvalPrintLoop(TGXP_ProcedureRegistry *reg) {
     return 0;
 }
 
-int TGXP_StartReadEvalPrintLoop(TGXP_ProcedureRegistry *reg, FILE *f, char *fn) {
+int TGXP_StartReadEvalPrintLoop(TGXP_ProcedureRegistry *reg, TGXP_ModuleManager *mm, FILE *f, char *fn) {
     TGXP_GraphicsFile gf = TGXP_CreateDummyGraphicsFile();
     TGXP_Environment nv = TGXP_CreateEnvironment(f, &gf, fn);
 
@@ -60,7 +62,7 @@ int TGXP_StartReadEvalPrintLoop(TGXP_ProcedureRegistry *reg, FILE *f, char *fn) 
             goto finalize;
         }
 
-        int stat = TGXP_FindAndExecuteCommand(reg, &cmd, &nv);
+        int stat = TGXP_FindAndExecuteCommand(reg, mm, &cmd, &nv);
         TGXP_FEEDBACK("%s\n", TGXP_VerboseErrorMessage(stat));
         TGXP_DestroyCommand(&cmd);
 

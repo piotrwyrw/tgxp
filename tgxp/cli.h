@@ -7,9 +7,9 @@
 
 #define TGXP_MAX_PROMPT_LENGTH 200
 
-int TGXP_StartEarlyReadEvalPrintLoop(TGXP_ProcedureRegistry *);
+int TGXP_StartEarlyReadEvalPrintLoop(TGXP_ProcedureRegistry *, TGXP_ModuleManager *);
 
-int TGXP_StartReadEvalPrintLoop(TGXP_ProcedureRegistry *, FILE *, char *);
+int TGXP_StartReadEvalPrintLoop(TGXP_ProcedureRegistry *, TGXP_ModuleManager *, FILE *, char *);
 
 char *TGXP_Prompt(char *);
 
