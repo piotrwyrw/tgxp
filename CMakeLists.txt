@@ -1,13 +1,12 @@
 cmake_minimum_required(VERSION 3.21)
-project(tgxp C)
-
-find_package(Lua REQUIRED)
-
-include_directories(/usr/local/include ${LUA_INCLUDE_DIR})
-
 set(CMAKE_C_STANDARD 99)
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY build)
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY build)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY build)
 
-set(SOURCE_FILES src/main.c src/tgxpf/tgxpf.h src/tgxpf/tgxpf.c src/const.h src/cli.h src/cli.c src/strhlp.h src/strhlp.c src/parse.h src/parse.c src/msg.h src/proc.h src/proc.c src/errc.h src/errc.c src/cpr.h src/cpr.c src/env.h src/env.c src/umath.h src/umath.c src/cmd/init.h src/cmd/init.c src/cmd/include.h src/cmd/commit.h src/cmd/commit.c src/cmd/intern.h src/cmd/detach.h src/cmd/detach.c src/cmd/attach.h src/cmd/attach.c src/cmd/set.h src/cmd/set.c src/cmd/rect.h src/plug/luai.c src/ufs.c)
+project(tgxp C)
+set(TGXP_SOURCE_FILES tgxp/main.c tgxp/tgxpf/tgxpf.h tgxp/tgxpf/tgxpf.c tgxp/const.h tgxp/cli.h tgxp/cli.c tgxp/strhlp.h tgxp/strhlp.c tgxp/parse.h tgxp/parse.c tgxp/msg.h tgxp/proc.h tgxp/proc.c tgxp/errc.h tgxp/errc.c tgxp/cpr.h tgxp/cpr.c tgxp/env.h tgxp/env.c tgxp/umath.h tgxp/umath.c tgxp/cmd/init.h tgxp/cmd/init.c tgxp/cmd/include.h tgxp/cmd/commit.h tgxp/cmd/commit.c tgxp/cmd/intern.h tgxp/cmd/detach.h tgxp/cmd/detach.c tgxp/cmd/attach.h tgxp/cmd/attach.c tgxp/cmd/set.h tgxp/cmd/set.c tgxp/dms/dms.h tgxp/dms/dms.c tgxp/dms/modl.h)
+add_executable(tgxp ${TGXP_SOURCE_FILES})
 
-add_executable(tgxp ${SOURCE_FILES})
-target_link_libraries(tgxp ${LUA_LIBRARIES})
+set(CMAKE_SHARED_LIBRARY_PREFIX "")
+add_library(test SHARED plugins/test.c)

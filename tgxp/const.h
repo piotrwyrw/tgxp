@@ -14,6 +14,10 @@
 #define TGXP_EXPECT_TOK "Expected Token: %s\n"
 #define TGXP_GENERAL_ERROR "Error: %s"
 
+#define TGXP_DMS_ERROR_ENTRY "Could not call entry point \"%s\" of module \"%s\".\n"
+#define TGXP_DMS_ENTRY_OK "Plugin \"%s\" initialized with command word \"%s\".\n"
+#define TGXP_DMS_ENTRY_FAIL "Initialization of \"%s\" failed.\n"
+
 #define TGXP_FOPEN_FLAGS "w"
 
 #endif

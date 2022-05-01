@@ -5,7 +5,6 @@
 
 #include <stdio.h>
 
-
 typedef struct {
     FILE *f;
     TGXP_GraphicsFile *g;

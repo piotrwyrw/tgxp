@@ -13,10 +13,5 @@ TGXP supports (for now, that is.)
 ### src &rarr; cmd
 All CLI commands are implemented in this directory.
 
-### src &rarr; plug
-Code for interfacing with LUA plugins.
-This feature is still under heavy development.
-
-### plugins
-This directory will be used to store user made extensions to the TGXP
-in the future. For now, it is used for development purposes.
+### src &rarr; dms
+Dynamic module / plugin support.
