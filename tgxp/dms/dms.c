@@ -124,7 +124,3 @@ void TGXP_CallAllEntries(TGXP_ModuleManager *mm) {
         TGXP_CallDynamicModuleEntryPoint(mm, &(mm->dm[i]));
     }
 }
-
-void TGXP_CloseAllDynamicModules(TGXP_ModuleManager *) {
-    
-}

@@ -1,11 +1,10 @@
 #include "../dev/tgxp.h"
 #include <string.h>
 
-DMS_CALL {
-    printf("Lolololollollllol");
-    return TGXP_ERRC_OK;
-}
+ACTION {
+    TGXP_FEEDBACK"[17546] Segmentation fault. Core dumped.\n");
+};
 
-DMS_ENTRY {
-    return strdup("tx");
-}
+ENTRY {
+    return strdup("moh");
+};

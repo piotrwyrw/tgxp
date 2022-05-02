@@ -30,6 +30,5 @@ TGXP_DynamicModule *TGXP_GetModuleByCommandWord(TGXP_ModuleManager *, char *);
 int TGXP_EnableModule(TGXP_ModuleManager *, char *);
 int TGXP_DisableModule(TGXP_ModuleManager *, char *);
 void TGXP_CallAllEntries(TGXP_ModuleManager *);
-void TGXP_CloseAllDynamicModules(TGXP_ModuleManager *);
 
 #endif
