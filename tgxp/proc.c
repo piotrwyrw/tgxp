@@ -54,7 +54,10 @@ int TGXP_FindAndExecuteCommand(TGXP_ProcedureRegistry *reg, TGXP_ModuleManager *
     }
 
     for (unsigned i = 0; i < mm->len; i ++) {
-        if (!strcmp(mm->dm[i].name, cmd->id)) {
+        if (!mm->dm[i].enable) {
+            continue;
+        }
+        if (!strcmp(mm->dm[i].cwd, cmd->id)) {
             idx = i;
             goto exec_plugin;
         }

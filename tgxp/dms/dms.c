@@ -26,7 +26,7 @@ void TGXP_DestroyDynamicModule(TGXP_DynamicModule *dm) {
     free(dm->cwd);
 }
 
-int TGXP_CallDynamicModuleEntryPoint(TGXP_DynamicModule *dm) {
+int TGXP_CallDynamicModuleEntryPoint(TGXP_ModuleManager *mm, TGXP_DynamicModule *dm) {
     if (dm->handle == NULL || dm->name == NULL) {
         return 0;
     }
@@ -38,6 +38,11 @@ int TGXP_CallDynamicModuleEntryPoint(TGXP_DynamicModule *dm) {
     char *cwd = (*entry)();
     if (!cwd) {
         TGXP_FEEDBACK(TGXP_DMS_ENTRY_FAIL, dm->name);
+        return 0;
+    }
+    TGXP_DynamicModule *cmod = TGXP_GetModuleByCommandWord(mm, cwd);
+    if (cmod) {
+        TGXP_FEEDBACK(TGXP_DMS_ENTRY_CONFLICT, cwd, dm->name, cmod->name);
         return 0;
     }
     strcpy(dm->cwd, cwd);
@@ -83,6 +88,16 @@ TGXP_DynamicModule *TGXP_GetModuleByName(TGXP_ModuleManager *mm, char *name) {
     return NULL;
 }
 
+TGXP_DynamicModule *TGXP_GetModuleByCommandWord(TGXP_ModuleManager *mm, char *cwd) {
+    for (unsigned i  = 0; i < mm->len; i ++) {
+        if (!strcmp(mm->dm[i].cwd, cwd)) {
+            return &(mm->dm[i]);
+        }
+    }
+    return NULL;
+}
+
+
 int TGXP_EnableModule(TGXP_ModuleManager *mm, char *name) {
     TGXP_DynamicModule *dmod = TGXP_GetModuleByName(mm, name);
     if (!dmod) {
@@ -106,6 +121,10 @@ void TGXP_CallAllEntries(TGXP_ModuleManager *mm) {
         if (mm->dm[i].handle == NULL) {
             continue;
         }
-        TGXP_CallDynamicModuleEntryPoint(&(mm->dm[i]));
+        TGXP_CallDynamicModuleEntryPoint(mm, &(mm->dm[i]));
     }
+}
+
+void TGXP_CloseAllDynamicModules(TGXP_ModuleManager *) {
+    
 }

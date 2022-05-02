@@ -17,6 +17,7 @@
 #define TGXP_DMS_ERROR_ENTRY "Could not call entry point \"%s\" of module \"%s\".\n"
 #define TGXP_DMS_ENTRY_OK "Plugin \"%s\" initialized with command word \"%s\".\n"
 #define TGXP_DMS_ENTRY_FAIL "Initialization of \"%s\" failed.\n"
+#define TGXP_DMS_ENTRY_CONFLICT "The command word \"%s\" of module \"%s\" is conflicting with module \"%s\"."
 
 #define TGXP_DMS_ERROR_CALL "Could not call command routine \"%s\" of module \"%s\".\n"
 
