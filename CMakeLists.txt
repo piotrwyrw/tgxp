@@ -10,3 +10,4 @@ add_executable(tgxp ${TGXP_SOURCE_FILES})
 
 set(CMAKE_SHARED_LIBRARY_PREFIX "")
 add_library(test SHARED plugins/test.c)
+target_link_libraries(test m)
