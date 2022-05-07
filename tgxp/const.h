@@ -1,6 +1,9 @@
 #ifndef TGXP_CONST_H
 #define TGXP_CONST_H
 
+#define TRUE 1
+#define FALSE 0
+
 #define TGXP_WELCOME_STR "Terminal Graphics Processor [v%.1f] \nType file name to open or '.exit' to quit.\n\n"
 #define TGXP_VERSION 1.2
 

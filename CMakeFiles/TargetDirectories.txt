@@ -1,4 +1,0 @@
-/home/piotrwyrw/tgxp/CMakeFiles/rebuild_cache.dir
-/home/piotrwyrw/tgxp/CMakeFiles/edit_cache.dir
-/home/piotrwyrw/tgxp/CMakeFiles/test.dir
-/home/piotrwyrw/tgxp/CMakeFiles/tgxp.dir

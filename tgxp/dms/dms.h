@@ -18,7 +18,7 @@ typedef struct {
 } TGXP_ModuleManager;
 
 TGXP_DynamicModule TGXP_CreateDynamicModule(char *, char *);
-void TGXP_DestroyDynamicModule(TGXP_DynamicModule *);
+void TGXP_DestroyDynamicModule(TGXP_DynamicModule *, int);
 
 int TGXP_CallDynamicModuleEntryPoint(TGXP_ModuleManager *, TGXP_DynamicModule *);
 

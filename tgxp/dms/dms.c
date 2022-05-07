@@ -15,15 +15,15 @@ TGXP_DynamicModule TGXP_CreateDynamicModule(char *name, char *so) {
         TGXP_FEEDBACK("Error: %s: %s\n", "Could not open shared object", dlerror());
         dmod.enable = 0;
     }
-    dmod.cwd = malloc(101);
+    dmod.cwd = NULL; // No need for that (yet, TGXP_RegisterModule mallocs the field once it is actually needed)
     return dmod;
 }
 
-void TGXP_DestroyDynamicModule(TGXP_DynamicModule *dm) {
+void TGXP_DestroyDynamicModule(TGXP_DynamicModule *dm, int dhandle) {
     free(dm->name);
-    if (!dm->handle) return;
-    dlclose(dm->handle);
     free(dm->cwd);
+    if (!dm->handle || !dhandle) return;
+    dlclose(dm->handle);
 }
 
 int TGXP_CallDynamicModuleEntryPoint(TGXP_ModuleManager *mm, TGXP_DynamicModule *dm) {
@@ -47,6 +47,7 @@ int TGXP_CallDynamicModuleEntryPoint(TGXP_ModuleManager *mm, TGXP_DynamicModule 
     }
     strcpy(dm->cwd, cwd);
     TGXP_FEEDBACK(TGXP_DMS_ENTRY_OK, dm->name, cwd);
+    free(cwd);
     return 1;
 }
 
@@ -60,7 +61,7 @@ TGXP_ModuleManager TGXP_CreateModuleManager(unsigned xlen) {
 
 void TGXP_DestroyModuleManager(TGXP_ModuleManager *mm) {
     for (unsigned i = 0; i < mm->len; i++) {
-        TGXP_DestroyDynamicModule(&(mm->dm[i]));
+        TGXP_DestroyDynamicModule(&(mm->dm[i]), TRUE);
     }
     free(mm->dm);
 }
@@ -73,8 +74,7 @@ int TGXP_RegisterModule(TGXP_ModuleManager *mm, TGXP_DynamicModule *dm) {
     strcpy(mm->dm[mm->len].name, dm->name);
     mm->dm[mm->len].handle = dm->handle;
     mm->dm[mm->len].enable = dm->enable;
-    mm->dm[mm->len].cwd = malloc(strlen(dm->cwd) + 1);
-    strcpy(mm->dm[mm->len].cwd, dm->cwd);
+    mm->dm[mm->len].cwd = calloc(101, sizeof(char)); // At this point, the plugin's CWD is unknown yet
     mm->len ++;
     return 1;
 }
@@ -89,7 +89,10 @@ TGXP_DynamicModule *TGXP_GetModuleByName(TGXP_ModuleManager *mm, char *name) {
 }
 
 TGXP_DynamicModule *TGXP_GetModuleByCommandWord(TGXP_ModuleManager *mm, char *cwd) {
-    for (unsigned i  = 0; i < mm->len; i ++) {
+    for (unsigned i = 0; i < mm->len; i ++) {
+        if (!mm->dm[i].cwd){
+            continue;
+        }
         if (!strcmp(mm->dm[i].cwd, cwd)) {
             return &(mm->dm[i]);
         }
