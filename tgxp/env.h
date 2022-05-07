@@ -9,6 +9,9 @@ typedef struct {
     FILE *f;
     TGXP_GraphicsFile *g;
     char *fn;
+    unsigned char _r;
+    unsigned char _g;
+    unsigned char _b;
 } TGXP_Environment;
 
 TGXP_Environment TGXP_CreateEnvironment(FILE *, TGXP_GraphicsFile *, char *);

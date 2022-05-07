@@ -1,0 +1,4 @@
+/home/piotr/tgxp/CMakeFiles/tgxp.dir
+/home/piotr/tgxp/CMakeFiles/circle.dir
+/home/piotr/tgxp/CMakeFiles/edit_cache.dir
+/home/piotr/tgxp/CMakeFiles/rebuild_cache.dir

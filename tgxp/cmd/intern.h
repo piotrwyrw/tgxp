@@ -10,6 +10,14 @@
             ((!TGXP_SearchParameterById(param_ct, params, id)) ? def : TGXP_SearchParameterById(param_ct, params, id)->value)
 #endif
 
+#ifndef TGXPC_INIT_GUARD
+#   define TGXPC_INIT_GUARD \
+            if (env->g->d == NULL) { \
+                TGXP_FEEDBACK("%s\n", "You must 'init' the workspace first, before executing this command."); \
+                return TGXP_ERRC_EXEC; \
+            }
+#endif
+
 /**
  * Please use the following two preprocessors to create your command
  * methods to keep them compatible with later releases of TGXP.

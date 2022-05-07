@@ -1,0 +1,16 @@
+/snap/clion/189/bin/cmake/linux/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" -S /home/piotr/tgxp -B /home/piotr/tgxp
+-- Configuring done
+CMake Error at CMakeLists.txt:12 (add_library):
+  Cannot find source file:
+
+    plugins/circle.c
+
+  Tried extensions .c .C .c++ .cc .cpp .cxx .cu .mpp .m .M .mm .ixx .cppm .h
+  .hh .h++ .hm .hpp .hxx .in .txx .f .F .for .f77 .f90 .f95 .f03 .hip .ispc
+
+
+CMake Error at CMakeLists.txt:12 (add_library):
+  No SOURCES given to target: circle
+
+
+CMake Generate step failed.  Build files cannot be regenerated correctly.

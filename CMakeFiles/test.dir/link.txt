@@ -1,0 +1,1 @@
+/usr/bin/cc -fPIC -g -shared -Wl,-soname,test.so -o build/plugins/test.so CMakeFiles/test.dir/plugins/test.c.o  -lm 

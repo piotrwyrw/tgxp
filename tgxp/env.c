@@ -10,6 +10,9 @@ TGXP_Environment TGXP_CreateEnvironment(FILE *f, TGXP_GraphicsFile *g, char *fn)
     env.g = g;
     env.fn = malloc(strlen(fn) + 1);
     strcpy(env.fn, fn);
+    env._r = 0;
+    env._g = 0;
+    env._b = 0;
     return env;
 }
 

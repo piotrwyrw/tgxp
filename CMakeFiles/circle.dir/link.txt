@@ -1,0 +1,1 @@
+/usr/bin/cc -fPIC -g -shared -Wl,-soname,circle.so -o build/plugins/circle.so CMakeFiles/circle.dir/plugins/circle.c.o  -lm 

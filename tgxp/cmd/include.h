@@ -28,3 +28,7 @@
 #if defined(TGXPC_INCLUDE_SET) || defined (TGXPC_INCLUDE_EVERYTHING)
 #   include "set.h"
 #endif
+
+#if defined(TGXPC_INCLUDE_COLOR) || defined (TGXPC_INCLUDE_EVERYTHING)
+#   include "color.h"
+#endif

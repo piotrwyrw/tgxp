@@ -42,6 +42,7 @@ void TGXP_DestroyCommand(TGXP_Command *cmd) {
     for (unsigned i = 0; i < cmd->param_ct; i++) {
         TGXP_DestroyCommandParameter(&(cmd->param[i]));
     }
+    free(cmd->param);
 }
 
 TGXP_CommandParameter *TGXP_SearchParameterById(unsigned param_ct, TGXP_CommandParameter *params, char *id) {
@@ -105,8 +106,7 @@ char *TGXP_NextToken(TGXP_TokenizerCache *c) {
     }
 
     // Remember to FREE the return value of this function (AKA the array below)
-    char *cur_tok = malloc(100 + 1);
-    cur_tok[0] = 0;
+    char *cur_tok = calloc(101, sizeof(char));
 
     TGXP_InternalTokenClassifier itc = TGXP_TOK_NOT_YET_CLASSIFIED;
 
@@ -117,7 +117,7 @@ char *TGXP_NextToken(TGXP_TokenizerCache *c) {
             if (itc == TGXP_TOK_NOT_YET_CLASSIFIED) {
                 continue;
             }
-            return cur_tok;
+            goto return_tok;
         }
 
         if (TGXP_IS_LETTER(ch) || TGXP_IS_NUMBER(ch)) {
@@ -129,17 +129,17 @@ char *TGXP_NextToken(TGXP_TokenizerCache *c) {
                 TGXP_StringConcatenateChar(cur_tok, ch);
                 goto final;
             } else {
-                return cur_tok;
+                goto return_tok;
             }
         }
 
         // Maybe an unclassified character?
         if (itc != TGXP_TOK_NOT_YET_CLASSIFIED) {
-            return cur_tok;
+            goto return_tok;
         }
         TGXP_StringConcatenateChar(cur_tok, ch);
         c->pos++;
-        return cur_tok;
+        goto return_tok;
 
         final:
         if (c->pos + 1 >= strlen(c->str)) {
@@ -156,6 +156,7 @@ char *TGXP_NextToken(TGXP_TokenizerCache *c) {
         free(cur_tok);
         return tmp;
     }
+    free(cur_tok);
     return NULL;
 }
 
@@ -182,34 +183,51 @@ TGXP_Command TGXP_ParseCommand(char *s) {
         if (TGXP_IsEmpty(pid)) {
             // Just exitting the loop here is perfectly legal, since it is the beginning
             // of a parameter
+            free(pid);
             break;
         }
         if (TGXP_StringClassifier(pid) != TGXP_TOK_IDENTIFIER) {
             TGXP_FEEDBACK(TGXP_EXPECT_TOK, "The parameter name must be an identifier.");
+            free(id);
+            free(pid);
             goto error_leave;
         }
 
         char *waste = TGXP_NextToken(&cache);
         if (TGXP_IsEmpty(waste)) {
             TGXP_FEEDBACK(TGXP_EXPECT_TOK, "Expected a '=' after variable name");
+            free(id);
+            free(pid);
+            free(waste);
             goto error_leave;
         }
         if (strcmp(waste, "=")) {
             TGXP_FEEDBACK(TGXP_EXPECT_TOK, "Expected a '=' after variable name");
+            free(id);
+            free(pid);
+            free(waste);
             goto error_leave;
         }
+        free(waste);
         char *val = TGXP_NextToken(&cache);
         if (TGXP_IsEmpty(val)) {
             TGXP_FEEDBACK(TGXP_EXPECT_TOK, "Expected integer literal after '='.");
+            free(id);
+            free(pid);
+            free(val);
             goto error_leave;
         }
         if (!TGXP_IsIntegerButString(val)) {
             TGXP_FEEDBACK(TGXP_GENERAL_ERROR, "Value is not an integer literal.\n");
+            free(id);
+            free(pid);
+            free(val);
             goto error_leave;
         }
         par[i].id = malloc(strlen(pid) + 10);
         strcpy(par[i].id, pid);
         par[i++].value = atoi(val);
+        free(val);
     }
 
     TGXP_Command cmd = TGXP_CreateCommand(id, i, par);
@@ -217,12 +235,10 @@ TGXP_Command TGXP_ParseCommand(char *s) {
         TGXP_DestroyCommandParameter(&(par[n]));
     }
     free(par);
-    free(id);
     TGXP_DestroyTokenizerCache(&cache);
     return cmd;
 
     error_leave:
-    free(id);
     for (unsigned n = 0; n < i; n++) {
         TGXP_DestroyCommandParameter(&(par[n]));
     }

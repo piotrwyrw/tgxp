@@ -12,6 +12,7 @@ TGXP_ProcedureRegistry TGXP_InitCentralInternalProcedureRegistry() {
     TGXP_REGISTER_PROC(proc, preg, "attach", TGXPC_Attach);
     TGXP_REGISTER_PROC(proc, preg, "detach", TGXPC_Detach);
     TGXP_REGISTER_PROC(proc, preg, "set", TGXPC_Set);
+    TGXP_REGISTER_PROC(proc, preg, "color", TGXPC_Color);
 
     return preg;
 }

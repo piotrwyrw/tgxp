@@ -24,6 +24,6 @@
 
 #define TGXP_DMS_ERROR_CALL "Could not call command routine \"%s\" of module \"%s\".\n"
 
-#define TGXP_FOPEN_FLAGS "w"
+#define TGXP_FOPEN_FLAGS "rw"
 
 #endif
